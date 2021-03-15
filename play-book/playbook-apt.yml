@@ -1,0 +1,29 @@
+---
+- name: Playbook - Install figlet
+  hosts: planetexpress:!farnsworth    # hosts is a key word, and we cna use regex ~^planet
+  gather_facts: yes   # default is yes
+
+  tasks:
+
+  - name: using apt to install figlet
+    apt:
+        name: figlet
+        state: present
+    become: yes
+    when: ansible_bios_vendor == "SeaBIOS"   # filter
+
+  - name: determine if a file exists
+    stat:
+        path: ~/visa.txt
+    register: results
+
+  - name: get a visual on the data we just created
+    debug:
+        var: results
+        verbosity: 1
+
+  - name:
+    file:
+        name: ~/visa.txt
+        state: touch
+    when: results.stat.exists != True
