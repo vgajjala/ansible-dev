@@ -1,24 +1,24 @@
 ---
 - name: Playbook - Install figlet
   hosts: planetexpress:!farnsworth    # hosts is a key word, and we cna use regex ~^planet
-  gather_facts: yes   # default is yes
+  gather_facts: yes   # default is yes ; No when we cannot gather facts using ssh or the server does not have python; in the event when gather-facts= false we need to have a task with _facts script
 
   tasks:
 
-  - name: using apt to install figlet
+  - name: using apt to install figlet   # comment of the task ; Use it every time as a best practice
     apt:
         name: figlet
         state: present
     become: yes
-    when: ansible_bios_vendor == "SeaBIOS"   # filter
+    when: ansible_bios_vendor == "SeaBIOS"   # filter for the entries of the inventory
 
   - name: determine if a file exists
     stat:
         path: ~/visa.txt
-    register: results
+    register: results   # register variable which stores the output of the task
 
   - name: get a visual on the data we just created
-    debug:
+    debug: # will only used when the -v flag is supplied when running the script
         var: results
         verbosity: 1
 
@@ -26,4 +26,5 @@
     file:
         name: ~/visa.txt
         state: touch
-    when: results.stat.exists != True
+    when: not results.stats.exists # when the file does not exist
+    #when: results.stat.exists != True
