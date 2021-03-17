@@ -1,0 +1,8 @@
+---
+# vars file for roles/alta3.webservice
+#
+pw: pass123
+pw1: tosomethrpass
+pwlist:
+        passone
+        passtwo

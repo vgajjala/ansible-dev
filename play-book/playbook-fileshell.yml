@@ -10,4 +10,4 @@
        state: directory
 
    - name: use shell module wiht wildcarding
-     shell: echo $HOME >> ~/output/path.txt
+     command: echo $HOME >> ~/output/path_2.txt
